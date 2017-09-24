@@ -1,0 +1,263 @@
+\documentclass[a1paper,25pt]{tikzposter} % See Section 3
+
+%\usepackage{fancytikzposter}
+%\usepackage{algorithm2e}
+\usepackage{mathtools}
+\usepackage{amssymb}
+\usepackage{tikz}
+\usepackage{mathtools}
+\usepackage{multirow}
+\usepackage{calc}
+\usepackage{float}
+\usepackage{array}
+\usepackage{adjustbox}
+\usepackage{caption}
+\usepackage{graphicx}
+\usepackage{capt-of}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage[ruled,linesnumbered,noend]{algorithm2e}
+\usepackage{xcolor}
+\usepackage{url}
+\usepackage{authblk}
+\usepackage{siunitx}
+\usepackage{url}
+\usetikzlibrary{arrows}
+
+% A1 to A0 conversion
+\usepackage{pgfpages}
+\pgfpagesdeclarelayout{resize and center}
+{
+  \def\pgfpageoptionborder{0pt}
+}
+{
+  \pgfpagesphysicalpageoptions
+  {%
+    logical pages=1,%
+    physical height=\pgfpageoptionheight,%
+    physical width=\pgfpageoptionwidth%
+  }
+  \pgfpageslogicalpageoptions{1}
+  {%
+    resized width=\pgfphysicalwidth,%
+    resized height=\pgfphysicalheight,%
+    border shrink=\pgfpageoptionborder,%
+    center=\pgfpoint{.5000\pgfphysicalwidth}{.50\pgfphysicalheight}%
+  }%
+}
+\pgfpagesuselayout{resize and center}[a0paper]
+
+\newcommand{\todo}{{\color{red}[TODO]~}}
+\newcommand{\todot}[1]{{\color{red}[TODO]~#1~}}
+% ABKUERZUNGEN
+\usepackage{xspace}
+\newcommand{\ie}{i.\nolinebreak[4]\hspace{0.01em}\nolinebreak[4]e.\@\xspace}
+\newcommand{\eg}{e.\nolinebreak[4]\hspace{0.01em}\nolinebreak[4]g.\@\xspace}
+\newcommand{\etal}{\emph{et al.}\xspace}
+\newcommand{\cor}[1]{\textcolor{blue}{#1}}
+\newcommand{\del}[1]{\textcolor{red}{#1}}
+\newcommand{\tdim}{d}
+\newcommand{\tsize}{n}
+\renewcommand{\vec}[1]{\mathbf{#1}}
+\def\O{{\cal O}}
+
+\newcommand{\N}{\mbox{$\mathbb{N}$}}
+\newcommand{\R}{\mbox{$\mathbb{R}$}}
+
+
+
+\title{\parbox{\linewidth}{\centering \textsf{\textbf{ShoulderTap -- Pneumatic On-body\\[1cm] Cues to Encode Directions}}}}
+\author{Tim Claudius Stratmann, Shadan Sadeghian Borojeni,\\ Wilko Heuten, Susanne Boll}
+%\author{Susanne Boll}
+\affil{Media Informatics and Multimedia Systems Group\\University of Oldenburg, Germany}
+\affil{E-Mail: \texttt{tim.claudius.stratmann@uol.de}}
+\titlegraphic{\hspace{4cm}\includegraphics[width=0.5\linewidth]{images/Offis_engl_sub_rgb_25.jpg}}
+
+
+\tikzposterlatexaffectionproofoff
+
+\definecolorpalette{colorstyle}{
+  \definecolor{colorOne}{HTML}{CCF09A}
+  \definecolor{colorTwo}{rgb}{0.0,0.355,0.652}
+  \definecolor{colorThree}{HTML}{85D09E}
+}
+
+\defineblockstyle{blkstyle}{
+titlewidthscale=0.9, bodywidthscale=1,titleleft,
+titleoffsetx=0pt, titleoffsety=0pt, bodyoffsetx=0mm, bodyoffsety=15mm,
+bodyverticalshift=10mm, roundedcorners=0, linewidth=2pt,
+titleinnersep=6mm, bodyinnersep=.75cm
+}{
+\draw[color=framecolor, fill=blockbodybgcolor,
+rounded corners=\blockroundedcorners] (blockbody.south west)
+rectangle (blockbody.north east);
+\ifBlockHasTitle
+\draw[color=framecolor, fill=blocktitlebgcolor,
+rounded corners=\blockroundedcorners] (blocktitle.south west)
+rectangle (blocktitle.north east);
+\fi
+}
+
+\definetitlestyle{titlestyle}{
+    width=1050mm, roundedcorners=0, linewidth=0.25cm, innersep=1cm,
+    titletotopverticalspace=7.5mm, titletoblockverticalspace=10mm,
+    titlegraphictotitledistance=10pt, titletextscale=1
+}{
+    \begin{scope}[line width=\titlelinewidth, rounded corners=\titleroundedcorners, inner sep=\titleinnersep]
+        \draw[color=framecolor, fill=titlebgcolor]%
+        (\titleposleft,\titleposbottom) rectangle (\titleposright,\titlepostop);
+    \end{scope}
+}
+
+\defineinnerblockstyle{iblkstyle}
+{
+  titlewidthscale=1, bodywidthscale=1, titleleft,
+  titleoffsetx=0pt, titleoffsety=0pt, bodyoffsetx=0pt, bodyoffsety=0pt,
+  bodyverticalshift=0pt, roundedcorners=0, linewidth=0pt,
+  titleinnersep=10pt, bodyinnersep=10pt
+}{
+  \ifInnerblockHasTitle%
+  \draw[draw=none, left color=innerblocktitlebgcolor, right color=innerblocktitlebgcolor]
+    (innerblocktitle.south west) rectangle (innerblocktitle.north east);
+    \fi%
+    \draw[draw=none, fill=innerblockbodybgcolor] %
+      (innerblockbody.north west) [rounded corners=30] -- (innerblockbody.south west) --
+      (innerblockbody.south east) [rounded corners=0]-- (innerblockbody.north east) -- cycle;
+}
+
+\definelayouttheme{sample}{
+\usecolorstyle[colorPalette=colorstyle]{Default}
+\usebackgroundstyle{Empty}
+\usetitlestyle{titlestyle}
+\useblockstyle{blkstyle}
+\useinnerblockstyle{iblkstyle}
+\usenotestyle{Simple}
+}
+
+ \usetheme{sample}
+
+\newcommand\HUGE{\fontsize{66}{7.2}\selectfont}
+
+\settitle{
+\vspace{-2cm}
+    \centering \vbox{
+        \colorbox{colorTwo}{
+       	\textcolor{colorTwo}{\bfseries\small\sc\@title}
+        }\\[-.1cm]
+        \colorbox{colorTwo}{
+        \textcolor{white}{\bfseries\HUGE\sc\@title}
+        }\\[-.1cm]
+        \colorbox{colorTwo}{
+        \textcolor{colorTwo}{\bfseries\tiny\sc\@title}
+        }\\[.75cm]
+        \begin{minipage}[H]{15cm}
+            \includegraphics[width=1\linewidth]{logo_uni_cmyk}
+        \end{minipage}
+        %
+        \begin{minipage}[H]{25cm}
+            \center
+            \large\@author
+        \end{minipage}
+        %
+        \begin{minipage}[H]{15cm}
+            \@titlegraphic
+        \end{minipage}
+
+    }
+}
+
+\makeatletter
+\def\maketitle{\AB@maketitle}
+\makeatother
+
+
+% Description align labels right
+\usepackage{calc}
+\usepackage{enumitem}
+\SetLabelAlign{parright}{\parbox[t]{\labelwidth}{\raggedleft#1}}
+
+\begin{document}
+
+    \sffamily
+    \maketitle
+    
+    \newcommand{\localtextbulletone}{\textcolor{colorTwo}{\raisebox{.45ex}{\rule{.6ex}{.6ex}}}}
+    \renewcommand{\labelitemi}{\localtextbulletone}
+    \setlist[itemize]{leftmargin=1cm}
+
+\block{\textsf{Abstract}}{
+\vspace{0.5cm}
+   \hspace{-3cm} 
+%\vspace{0.4cm}
+}
+
+
+%
+\block{\textsf{Design}}{
+%\vspace{0.5cm}
+
+    \vspace{0.5cm}
+        \begin{minipage}[H]{0.6\linewidth}
+            \begin{itemize}
+    	\item ~
+      		    \end{itemize}
+      		\vspace{1cm}
+
+        \end{minipage}            
+		\begin{minipage}[H]{0.4\linewidth}
+%        % \innerblock{}{
+            \begin{center}
+                %\includegraphics[width=.85\linewidth]{./images/X}
+                %\captionof*{figure}{{\small \textsf{Photo of worn prototype.\label{fig:Prototype}}}}
+            \end{center}
+        % }
+        \end{minipage}
+
+%
+    \begin{minipage}[H]{1.0\linewidth}
+		\begin{center}
+				%\hspace{1.5cm}
+				%\includegraphics[width=0.13\textwidth]{images/X}
+				%\hfill
+		\end{center}
+    \end{minipage}
+%
+}
+%
+%\begin{columns}
+%\column{.5}
+\block{\textsf{Conclusion}}{
+\vspace{0.5cm}
+%    \begin{minipage}[H]{0.5\linewidth}
+		\begin{itemize}
+		\setlength{\itemsep}{12pt}
+			\item ~
+		\end{itemize}		
+%	\end{minipage}
+%
+%    \begin{minipage}[H]{0.5\linewidth}
+        % \innerblock{}{
+%            \begin{center}
+%                \includegraphics[width=\linewidth]{./images/SA.pdf}
+%                \captionof*{figure}{{\small \textsf{Situation Awareness \label{fig:SA}}}}
+%            \end{center}
+        % }
+%    \end{minipage}
+%
+%\vspace{2.85cm}
+}
+%
+%\column{.5}
+%\block{\textsf{References}}{
+%\vspace{0.5cm}
+%\renewcommand{\refname}{\vspace*{-1em}} % Redefine bibname
+%\vspace*{-1em}
+%\bibliographystyle{abbrv}
+%\bibliography{sigproc}
+%\vspace{1.05cm}
+%}
+
+% TODO: References!
+
+%\end{columns}
+\end{document}
